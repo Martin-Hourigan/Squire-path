@@ -1,0 +1,41 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Squire (path)"
+config/description="The hero walks a set path through the rooms and fights on their own; you, the alchemist squire, brew potions and hand them over. Real-time and turn-based."
+run/main_scene="res://scenes/main.tscn"
+config/version="0.1"
+config/icon="res://icon.png"
+config/quit_on_go_back=false
+config/features=PackedStringArray("4.5", "GL Compatibility")
+
+[autoload]
+
+ScreenshotRecorder="*res://scripts/screenshot_recorder.gd"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+window/handheld/orientation=4
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+anti_aliasing/quality/msaa_2d=2
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.07, 0.067, 0.086, 1)

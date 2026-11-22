@@ -1,0 +1,87 @@
+{
+	"_note": "Every number here is a PLACEHOLDER - tune freely. The map is data/map.txt.",
+	"hero": {
+		"asset": "knight_back",
+		"hp": 60,
+		"attack_every": 2.0,
+		"attack_dmg": 6,
+		"weapon": "sword",
+		"drink_time": 0.4
+	},
+	"weapons": {
+		"sword": {"special": "Big Slash", "special_dmg": 20}
+	},
+	"special_power": {
+		"max": 100,
+		"per_hp_lost": 2.0,
+		"per_second": 3.0
+	},
+	"enemy": {
+		"asset": "brute",
+		"hp": 90,
+		"attack_every": 2.5,
+		"attack_dmg": 5,
+		"big_every": 4,
+		"big_name": "Big Swing",
+		"big_dmg": 14,
+		"big_windup": 1.5
+	},
+	"effects": {
+		"_note": "Every potion is for the hero and their gear. heal: HP back. ward: a shield enchantment that soaks up this much damage. venom: the weapon is coated for this many hits; each hit poisons. Poison: the enemy loses its poison in HP every tick, then poison goes down by 1.",
+		"heal": {"fmt": "heal %d"},
+		"ward": {"fmt": "shield ward %d"},
+		"venom": {"fmt": "venom %d hit(s)"}
+	},
+	"venom_poison": 3,
+	"poison_tick": 2.0,
+	"ingredients": {
+		"_note": "One ingredient alone, or any mix that isn't a recipe, is an UNNAMED potion: just the ingredients' effects added up.",
+		"redcap": {"name": "Redcap", "col": "#c84a40", "fx": {"heal": 4}},
+		"ironbark": {"name": "Ironbark", "col": "#8a8f9a", "fx": {"ward": 4}},
+		"nightshade": {"name": "Nightshade", "col": "#7a4ab0", "fx": {"venom": 1}},
+		"honey": {"name": "Honey", "col": "#d8b030", "fx": {"heal": 2}}
+	},
+	"recipes": {
+		"_note": "Exactly these ingredients, any order. Strength against ONE ingredient: a 2-ingredient recipe about x3, a 3-ingredient recipe about x5. known = in the book at the start. Brewing one you don't know still works and puts it in the book; winning a fight teaches one more.",
+		"salve": {"name": "Salve", "ings": ["redcap", "honey"], "fx": {"heal": 12}, "known": true},
+		"iron_wash": {"name": "Iron Wash", "ings": ["ironbark", "ironbark"], "fx": {"ward": 12}},
+		"venom_drop": {"name": "Venom Drop", "ings": ["nightshade", "nightshade"], "fx": {"venom": 3}},
+		"healing_draught": {"name": "Healing Draught", "ings": ["redcap", "redcap", "honey"], "fx": {"heal": 20}, "known": true},
+		"shield_oil": {"name": "Shield Oil", "ings": ["ironbark", "ironbark", "honey"], "fx": {"ward": 20}, "known": true},
+		"venom_oil": {"name": "Venom Oil", "ings": ["nightshade", "nightshade", "honey"], "fx": {"venom": 5}},
+		"iron_tonic": {"name": "Iron Tonic", "ings": ["redcap", "ironbark", "ironbark"], "fx": {"heal": 8, "ward": 12}},
+		"bitter_edge": {"name": "Bitter Edge", "ings": ["nightshade", "ironbark", "redcap"], "fx": {"venom": 2, "ward": 6, "heal": 6}}
+	},
+	"bag": ["redcap", "redcap", "redcap", "redcap", "ironbark", "ironbark", "ironbark", "ironbark", "nightshade", "nightshade", "nightshade", "honey", "honey", "honey"],
+	"hand_cap": 5,
+	"realtime": {
+		"_note": "No ingredients arrive on their own: you start with a full hand and REDRAW (replace your hand) whenever its meter is full.",
+		"start_hand": 5,
+		"redraw_fill": 15.0
+	},
+	"turns": {
+		"_note": "Your turn: brew and hand over, then END TURN. The hero attacks (an enemy that chose BLOCK stops the first hit), then the enemy does what it showed (the hero always blocks: hits land at hero_block). Poison ticks once a turn, before the enemy acts.",
+		"start_hand": 5,
+		"draw_per_turn": 2,
+		"potions_per_turn": 1,
+		"redraw_turns": 3,
+		"hero_block": 0.5,
+		"power_per_turn": 6,
+		"enemy_block_chance": 0.25,
+		"beat": 0.7
+	},
+	"fresh": {
+		"_note": "A brewed potion loses strength until it's used: full in its first turn, then x0.5, then x0.1 from two turns on. Real time counts a turn as turn_secs seconds. Brewing and handing over straight away is always full strength.",
+		"steps": [1.0, 0.5, 0.1],
+		"turn_secs": 2.0
+	},
+	"walk": {
+		"_note": "Between fights the hero walks the path: realtime at tiles_per_sec; turns one tile every beat (each tile is a turn).",
+		"tiles_per_sec": 2.5,
+		"beat": 0.4
+	},
+	"flask_min": 1,
+	"flask_max": 3,
+	"low_hp_at": 0.3,
+	"attack_frame_time": 0.35
+}
