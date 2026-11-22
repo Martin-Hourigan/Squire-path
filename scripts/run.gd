@@ -132,6 +132,9 @@ func _read_map(text: String) -> void:
 	path = [start]
 	for mk in marks:
 		path.append_array(_route(path.back(), mk).slice(1))
+	if path.size() < 2:
+		push_error("no path in the map (is data/map.txt missing?)")
+		outcome = "broken"
 
 
 func walkable(p: Vector2i) -> bool:

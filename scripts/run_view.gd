@@ -497,6 +497,10 @@ func _draw_band() -> void:
 func _draw_outcome() -> void:
 	draw_rect(Rect2(0, 0, 960, 540), Color(0, 0, 0, 0.6))
 	var won := run.outcome == "won"
+	if run.outcome == "broken":
+		_text_c(Vector2(480, 220), "THE MAP DIDN'T LOAD", 30, Color("#ff7a6a"))
+		_button(_btn_menu(), "MENU", true)
+		return
 	_text_c(Vector2(480, 220), "THE KNIGHT MADE IT THROUGH" if won else "THE KNIGHT FELL", 30, GOLD if won else Color("#ff7a6a"))
 	var sub := "fights won: %d" % run.fights_won
 	if won:
