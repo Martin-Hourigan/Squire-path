@@ -26,7 +26,8 @@ them over. Brewing and the recipe book come from ../Squire-alchemist.
   Healing Draught and Shield Oil; brewing an unknown recipe or winning a
   fight teaches more. FORGET RECIPES on the menu resets the book.
 - FRESHNESS: the flask is full strength on the turn an ingredient goes in
-  and the turn after; then it loses 10% a turn (down to 10%). Adding an
+  and the turn after; then it fades each turn, down to nothing: one
+  ingredient loses 50% a turn, two 35%, three 10%. Adding an
   ingredient makes it full again, so a full flask (3 ingredients) can only
   fade. A brewed potion keeps fading until it's used (the low-HP slot, or
   one handed over while the hero is busy). Real time counts a turn as 2 s.

@@ -345,15 +345,18 @@ func learn(r: String) -> void:
 
 
 ## How strong a potion still is, from its age in turns: full for "full_turns"
-## turns after the last ingredient went in, then "per_turn" less each turn.
+## turns after the last ingredient went in, then less each turn ("per_turn",
+## by how many ingredients it has), down to nothing.
 func fresh(p: Dictionary) -> float:
 	var f: Dictionary = d["fresh"]
+	var rates: Array = f["per_turn"]
+	var rate := float(rates[clampi(p["ings"].size(), 1, rates.size()) - 1])
 	var stale := maxi(0, int(p["age"]) - int(f["full_turns"]))
-	return maxf(float(f["lowest"]), 1.0 - float(f["per_turn"]) * stale)
+	return maxf(0.0, 1.0 - rate * stale)
 
 
 func flask_fresh() -> float:
-	return fresh({"age": flask_age})
+	return fresh({"age": flask_age, "ings": flask})
 
 
 func _age_potions(turns: float) -> void:
