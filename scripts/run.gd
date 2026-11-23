@@ -65,6 +65,7 @@ var turn := 1
 var phase := "you"  # you, hero (hero just attacked), enemy (enemy just acted)
 var phase_t := 0.0
 var potions_used := 0  # this turn
+var parts_added := 0   # turns: ingredients put in the flask this turn
 var intent := "attack"  # what the enemy will do: attack, big, block
 
 ## What happened since the view last looked: {kind, amount, text}.
@@ -206,8 +207,13 @@ func potions_left() -> int:
 	return int(m["potions_per_turn"]) - potions_used if mode == "turns" and state == "fight" else 99
 
 
+## Turns: how many more ingredients can go in the flask this turn.
+func parts_left() -> int:
+	return int(m["parts_per_turn"]) - parts_added if mode == "turns" else 99
+
+
 func can_add(i: int) -> bool:
-	return your_turn() and i >= 0 and i < hand.size() and flask.size() < int(d["flask_max"])
+	return your_turn() and parts_left() > 0 and i >= 0 and i < hand.size() and flask.size() < int(d["flask_max"])
 
 
 func add_to_flask(i: int) -> bool:
@@ -215,11 +221,15 @@ func add_to_flask(i: int) -> bool:
 		return false
 	flask.append(hand[i])
 	hand.remove_at(i)
+	parts_added += 1
 	return true
 
 
+## Taking back the ingredient put in this turn gives the turn's part back.
 func take_from_flask(i: int) -> void:
 	if i >= 0 and i < flask.size():
+		if parts_added > 0 and i == flask.size() - 1:
+			parts_added -= 1
 		hand.append(flask[i])
 		flask.remove_at(i)
 
@@ -404,6 +414,7 @@ func _walk(dt: float) -> void:
 
 ## Turns: a turn goes by (a tile walked, or a fight turn).
 func _turn_passes() -> void:
+	parts_added = 0
 	redraw_t = minf(redraw_need(), redraw_t + 1.0)
 	_age_potions(1.0)
 
@@ -418,6 +429,7 @@ func _start_fight(f: Dictionary) -> void:
 	turn = 1
 	phase = "you"
 	potions_used = 0
+	parts_added = 0
 	if mode == "turns":
 		_pick_intent()
 	events.append({"kind": "fight"})

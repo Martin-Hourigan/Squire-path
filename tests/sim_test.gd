@@ -2,7 +2,8 @@ extends SceneTree
 ## Headless: plays whole runs with simple squire bots, in both modes, to check
 ## nothing gets stuck. idle = never brews; single = hands over every
 ## ingredient alone at once; recipes = brews recipes it holds (Healing
-## Draught kept in the low-HP slot), redraws when it holds none.
+## Draught kept in the low-HP slot), redraws when it holds none; in turns it
+## puts one ingredient in a turn and hands over when the recipe is done.
 ##   godot --headless --path . --script res://tests/sim_test.gd
 
 const RUNS := 100
@@ -52,10 +53,36 @@ func _bot(run: Run, bot: String) -> void:
 		return
 	if run.redraw_ready() and Run.recipe_ids(run.d).all(func(r): return not _can(run, r)):
 		run.redraw()
+	if run.mode == "turns":
+		_bot_turns(run)
+		return
 	if run.low_slot == null and _brew(run, run.d["recipes"]["healing_draught"]["ings"]):
 		run.to_low_slot()
 	for r in ["iron_tonic", "shield_oil", "venom_oil", "bitter_edge", "salve", "iron_wash", "venom_drop"]:
 		if _brew(run, run.d["recipes"][r]["ings"]):
+			run.hand_over()
+
+
+func _bot_turns(run: Run) -> void:
+	var goal: String = run.get_meta("goal", "")
+	if run.flask.is_empty():
+		goal = ""
+		for r in ["healing_draught", "iron_tonic", "shield_oil", "venom_oil", "bitter_edge", "salve", "iron_wash", "venom_drop"]:
+			if (r != "healing_draught" or run.low_slot == null) and _can(run, r):
+				goal = r
+				break
+		run.set_meta("goal", goal)
+	if goal == "":
+		return
+	var ids: Array = run.d["recipes"][goal]["ings"].duplicate()
+	for id in run.flask:
+		ids.erase(id)
+	if not ids.is_empty():
+		run.add_to_flask(run.hand.find(ids[0]))
+	if run.flask.size() == run.d["recipes"][goal]["ings"].size():
+		if goal == "healing_draught":
+			run.to_low_slot()
+		else:
 			run.hand_over()
 
 

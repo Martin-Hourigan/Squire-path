@@ -60,10 +60,11 @@
 		"redraw_fill": 15.0
 	},
 	"turns": {
-		"_note": "Your turn: brew and hand over, then END TURN. The hero attacks (an enemy that chose BLOCK stops the first hit), then the enemy does what it showed (the hero always blocks: hits land at hero_block). Poison ticks once a turn, before the enemy acts.",
+		"_note": "Your turn: put one ingredient (parts_per_turn) in the flask, hand over a potion if you like, then END TURN. Walking, each tile is a turn. The hero attacks (an enemy that chose BLOCK stops the first hit), then the enemy does what it showed (the hero always blocks: hits land at hero_block). Poison ticks once a turn, before the enemy acts.",
 		"start_hand": 5,
 		"draw_per_turn": 2,
 		"potions_per_turn": 1,
+		"parts_per_turn": 1,
 		"redraw_turns": 3,
 		"hero_block": 0.5,
 		"power_per_turn": 6,

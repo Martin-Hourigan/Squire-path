@@ -466,6 +466,8 @@ func _draw_band() -> void:
 		var named: bool = brew["recipe"] != "" and run.known.has(brew["recipe"])
 		_text(Vector2(x, y), brew["name"], 13, GOLD if named else INK)
 		_text(Vector2(x, y + 17), _fx_text(brew["fx"]), 11, GOOD)
+	if run.mode == "turns":
+		_text(Vector2(FLASK.position.x + 180, FLASK.position.y + 54), "part: %d" % maxi(run.parts_left(), 0), 10, DIM)
 	if run.mode == "turns" and run.state == "fight":
 		_text(Vector2(FLASK.position.x + 180, FLASK.position.y + 26), "potions", 10, DIM)
 		_text(Vector2(FLASK.position.x + 180, FLASK.position.y + 40), "left: %d" % maxi(run.potions_left(), 0), 10, DIM)

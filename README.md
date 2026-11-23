@@ -39,8 +39,10 @@ own; REDRAW (15 s meter) swaps your hand.
 
 ## TURN-BASED
 
-Walking, each tile is a turn (a tile every 0.4 s). In a fight: your turn
-(brew, one potion a turn, used straight away), END TURN, the hero attacks
+One ingredient goes into the flask a turn, so a full recipe takes three
+turns to put together (taking back this turn's ingredient gives the turn
+back). Walking, each tile is a turn (a tile every 0.4 s). In a fight: your
+turn (add an ingredient, hand over at most one potion, used straight away), END TURN, the hero attacks
 (a brute that showed BLOCK stops the first hit), poison ticks, the brute
 does what it showed; the hero always blocks, taking half. 2 ingredients
 drawn each fight turn; REDRAW every 3 turns.
