@@ -25,10 +25,11 @@ them over. Brewing and the recipe book come from ../Squire-alchemist.
   unnamed potion, the ingredients added up. The book starts with Salve,
   Healing Draught and Shield Oil; brewing an unknown recipe or winning a
   fight teaches more. FORGET RECIPES on the menu resets the book.
-- FRESHNESS: a potion waiting to be used (the low-HP slot, or one handed
-  over while the hero is busy) is full strength in its first turn, half
-  after one turn, a tenth after two. Real time counts a turn as 2 s.
-  Handing over straight away is always full strength.
+- FRESHNESS: the flask is full strength on the turn an ingredient goes in
+  and the turn after; then it loses 10% a turn (down to 10%). Adding an
+  ingredient makes it full again, so a full flask (3 ingredients) can only
+  fade. A brewed potion keeps fading until it's used (the low-HP slot, or
+  one handed over while the hero is busy). Real time counts a turn as 2 s.
 
 ## REAL-TIME
 

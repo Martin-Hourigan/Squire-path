@@ -72,8 +72,10 @@
 		"beat": 0.7
 	},
 	"fresh": {
-		"_note": "A brewed potion loses strength until it's used: full in its first turn, then x0.5, then x0.1 from two turns on. Real time counts a turn as turn_secs seconds. Brewing and handing over straight away is always full strength.",
-		"steps": [1.0, 0.5, 0.1],
+		"_note": "The flask (and the potion brewed from it, until it's used) is full strength on the turn an ingredient goes in and for full_turns turns after; then it loses per_turn each turn, down to lowest. Adding an ingredient makes it full again. Real time counts a turn as turn_secs seconds.",
+		"full_turns": 1,
+		"per_turn": 0.1,
+		"lowest": 0.1,
 		"turn_secs": 2.0
 	},
 	"walk": {

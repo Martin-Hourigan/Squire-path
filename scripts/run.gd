@@ -54,6 +54,7 @@ var hero := {}
 var draw_pile: Array = []
 var hand: Array = []       # ingredient ids
 var flask: Array = []      # ingredient ids (still count toward the hand cap)
+var flask_age := 0.0       # turns since the last ingredient went in
 var discard: Array = []
 var handed: Array = []     # realtime: potions waiting for the hero, used in order
 var low_slot = null        # one potion or null
@@ -221,6 +222,7 @@ func add_to_flask(i: int) -> bool:
 		return false
 	flask.append(hand[i])
 	hand.remove_at(i)
+	flask_age = 0.0
 	parts_added += 1
 	return true
 
@@ -327,12 +329,13 @@ func flask_effects(ids: Array = flask) -> Dictionary:
 func _brew() -> Dictionary:
 	var p := flask_effects()
 	p["ings"] = flask.duplicate()
-	p["age"] = 0.0
+	p["age"] = flask_age
 	if p["recipe"] != "" and not known.has(p["recipe"]):
 		learn(p["recipe"])
 		p["name"] = String(d["recipes"][p["recipe"]]["name"])
 	discard.append_array(flask)
 	flask.clear()
+	flask_age = 0.0
 	return p
 
 
@@ -341,13 +344,21 @@ func learn(r: String) -> void:
 	events.append({"kind": "learned", "text": String(d["recipes"][r]["name"])})
 
 
-## How strong a potion still is, from its age in turns.
+## How strong a potion still is, from its age in turns: full for "full_turns"
+## turns after the last ingredient went in, then "per_turn" less each turn.
 func fresh(p: Dictionary) -> float:
-	var steps: Array = d["fresh"]["steps"]
-	return float(steps[mini(int(p["age"]), steps.size() - 1)])
+	var f: Dictionary = d["fresh"]
+	var stale := maxi(0, int(p["age"]) - int(f["full_turns"]))
+	return maxf(float(f["lowest"]), 1.0 - float(f["per_turn"]) * stale)
+
+
+func flask_fresh() -> float:
+	return fresh({"age": flask_age})
 
 
 func _age_potions(turns: float) -> void:
+	if not flask.is_empty():
+		flask_age += turns
 	for p in handed:
 		p["age"] += turns
 	if low_slot != null:
